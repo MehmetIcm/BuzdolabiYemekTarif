@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Evindeki malzemeleri yaz, yapabileceğin yemekleri bul."
+    >
+
+    <title>Dolabımda Ne Var? | Yemek Bul</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="hero">
+
+    <nav class="navbar">
+
+        <a href="#" class="logo">
+            <span class="logo-icon">🍳</span>
+            <span>Dolabımda Ne Var?</span>
+        </a>
+
+        <button
+            id="themeButton"
+            class="theme-button"
+            type="button"
+            aria-label="Tema değiştir"
+        >
+            🌙
+        </button>
+
+    </nav>
+
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            🥕 Evindeki malzemelerden yemek bul
+        </div>
+
+        <h1>
+            Bugün ne
+            <span>pişirsek?</span>
+        </h1>
+
+        <p>
+            Evde bulunan malzemelerini yaz.
+            Sana en uygun yemekleri bulalım.
+        </p>
+
+
+        <div class="search-box">
+
+            <div class="input-row">
+
+                <span class="input-icon">🔎</span>
+
+                <input
+                    id="ingredientInput"
+                    type="text"
+                    placeholder="Örn: yumurta, patates, domates"
+                    autocomplete="off"
+                >
+
+                <button
+                    id="addButton"
+                    type="button"
+                >
+                    Ekle
+                </button>
+
+            </div>
+
+
+            <div
+                id="ingredientTags"
+                class="ingredient-tags"
+            ></div>
+
+
+            <div class="quick-row">
+
+                <span>Hızlı ekle:</span>
+
+                <button
+                    type="button"
+                    data-ingredient="yumurta"
+                >
+                    🥚 Yumurta
+                </button>
+
+                <button
+                    type="button"
+                    data-ingredient="patates"
+                >
+                    🥔 Patates
+                </button>
+
+                <button
+                    type="button"
+                    data-ingredient="domates"
+                >
+                    🍅 Domates
+                </button>
+
+                <button
+                    type="button"
+                    data-ingredient="soğan"
+                >
+                    🧅 Soğan
+                </button>
+
+                <button
+                    type="button"
+                    data-ingredient="peynir"
+                >
+                    🧀 Peynir
+                </button>
+
+                <button
+                    type="button"
+                    data-ingredient="tavuk"
+                >
+                    🍗 Tavuk
+                </button>
+
+            </div>
+
+
+            <button
+                id="findButton"
+                class="find-button"
+                type="button"
+            >
+                🍽️ Bana Yemek Bul
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="main">
+
+    <section
+        id="loading"
+        class="loading hidden"
+    >
+        <div class="spinner"></div>
+
+        <p>Tarifler hazırlanıyor...</p>
+    </section>
+
+
+    <section
+        id="emptyState"
+        class="empty-state"
+    >
+
+        <div class="empty-icon">
+            🥘
+        </div>
+
+        <h2>
+            Dolabında neler var?
+        </h2>
+
+        <p>
+            Birkaç malzeme ekle,
+            sana yapabileceğin yemekleri gösterelim.
+        </p>
+
+        <div class="example">
+
+            <strong>Örnek:</strong>
+
+            <span>
+                yumurta + patates + soğan
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <section
+        id="resultsSection"
+        class="results hidden"
+    >
+
+        <div class="results-top">
+
+            <div>
+
+                <div class="eyebrow">
+                    TARİF SONUÇLARI
+                </div>
+
+                <h2>
+                    Sana uygun
+                    <span id="resultCount">0</span>
+                    tarif
+                </h2>
+
+            </div>
+
+
+            <div class="sort-box">
+
+                <label for="sortSelect">
+                    Sırala
+                </label>
+
+                <select id="sortSelect">
+
+                    <option value="match">
+                        Malzeme uyumu
+                    </option>
+
+                    <option value="time">
+                        En hızlı
+                    </option>
+
+                    <option value="popular">
+                        Kaynağa göre popüler
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="selected-summary">
+
+            <strong>
+                🥕 Malzemelerin:
+            </strong>
+
+            <div id="resultIngredients"></div>
+
+        </div>
+
+
+        <div
+            id="recipeGrid"
+            class="recipe-grid"
+        ></div>
+
+
+        <div class="source-note">
+
+            Tarif içerikleri açık lisanslı
+            <a
+                href="https://en.wikibooks.org/wiki/Cookbook:Recipes"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Wikibooks Cookbook
+            </a>
+            kaynaklarından uyarlanmıştır.
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<div
+    id="modal"
+    class="modal hidden"
+    aria-hidden="true"
+>
+
+    <div
+        id="modalOverlay"
+        class="modal-overlay"
+    ></div>
+
+
+    <div
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+    >
+
+        <button
+            id="closeModal"
+            class="close-modal"
+            type="button"
+            aria-label="Kapat"
+        >
+            ×
+        </button>
+
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <div class="footer-left">
+
+        <strong>
+            🍳 Dolabımda Ne Var?
+        </strong>
+
+        <span>
+            Evindeki malzemelerden yemek bul.
+        </span>
+
+    </div>
+
+
+    <div class="footer-right">
+
+        Tarif içerikleri
+        <a
+            href="https://en.wikibooks.org/wiki/Cookbook:Recipes"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Wikibooks Cookbook
+        </a>
+        kaynaklıdır.
+
+    </div>
+
+</footer>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>
